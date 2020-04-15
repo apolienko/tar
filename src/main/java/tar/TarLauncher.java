@@ -10,7 +10,7 @@ public class TarLauncher {
     private File total;
 
     @Option(name = "-u", metaVar = "Split", usage = "Split files")
-    private File spl;
+    private File split;
 
     @Argument(usage = "InputFileName")
     private ArrayList<File> inputFilesName;
@@ -27,7 +27,7 @@ public class TarLauncher {
         }
 
         Tar tar = new Tar();
-        if (spl != null) tar.split();
+        if (split != null) tar.split();
         else {
             if (total != null) tar.connect(total, inputFilesName);
             else {
