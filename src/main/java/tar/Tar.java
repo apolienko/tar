@@ -9,7 +9,7 @@ public class Tar {
     public void connect(File total, List<File> inputFilesName) {
 
         try{
-            FileWriter fw = new FileWriter(total.getPath());
+            FileWriter fw = new FileWriter(total);
             BufferedWriter writer = new BufferedWriter(fw);
             for (File file : inputFilesName) {
                 writer.write(String.valueOf(file));
@@ -22,12 +22,22 @@ public class Tar {
                         writer.newLine();
                         count++;
                     }
-                    writer.write("Файл " + file + " содержит " + count + " строк.");
+                    writer.write("Файл " + file + " содержит " + count + " строк(и).");
                     writer.newLine();
                     namesOfFiles.put(String.valueOf(file), count);
                 }
             }
             writer.close();
+            //Создание файла, внутри которого находятся имена файлов и кол-во строк
+            File fileOfNames = new File(total.getParent() + "\\fileOfNames.txt");
+            fileOfNames.createNewFile();
+            FileWriter fw2 = new FileWriter(total.getParent() + "\\fileOfNames.txt");
+            BufferedWriter writer2 = new BufferedWriter(fw2);
+            for (Map.Entry<String, Integer> pair : namesOfFiles.entrySet()) {
+                writer2.write(pair.getKey() + " " + pair.getValue());
+                writer2.newLine();
+            }
+            writer2.close();
         }
         catch (IOException e){
             e.printStackTrace();
@@ -37,14 +47,24 @@ public class Tar {
 
     public void spliter(File split) throws IOException {
 
+        try (BufferedReader br = new BufferedReader(new FileReader(split.getParent() + "\\fileOfNames.txt" ))) {
+            String nowLine;
+            while ((nowLine = br.readLine()) != null) {
+                String[] fileNameAndLines = nowLine.split(" ");
+                namesOfFiles.put(fileNameAndLines[0], Integer.parseInt(fileNameAndLines[1]));
+            }
+        }
+
         workDirectory = split.getPath();
-        int numberOfFiles = namesOfFiles.keySet().size();
+
+        int countOfFiles = namesOfFiles.keySet().size();
 
         try (BufferedReader br = new BufferedReader(new FileReader(workDirectory))) {
-            for (int i = 0; i < numberOfFiles; i++) {
+            for (int i = 0; i < countOfFiles; i++) {
                 String nowLine = br.readLine();
-                File file = new File(workDirectory + separator + nowLine + "-restored");
-                BufferedWriter writer = new BufferedWriter(new FileWriter(file.getPath()));
+                File resroredFile = new File(nowLine + "-restored");
+                resroredFile.createNewFile();
+                BufferedWriter writer = new BufferedWriter(new FileWriter(resroredFile.getPath()));
                 int numOfLines = namesOfFiles.get(nowLine);
                 for (int j = 0; j < numOfLines; j++) {
                     nowLine = br.readLine();
@@ -62,6 +82,6 @@ public class Tar {
 
     private String workDirectory;
 
-    private HashMap<String, Integer> namesOfFiles;
+    private Map<String, Integer> namesOfFiles = new HashMap<String, Integer>();
 
 }
