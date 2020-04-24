@@ -13,7 +13,7 @@ public class TarLauncher {
     private File split;
 
     @Argument(usage = "InputFileName")
-    private ArrayList<File> inputFilesName;
+    private List<File> inputFilesName;
 
     void launch(String[] args) throws IOException {
         CmdLineParser parser = new CmdLineParser(this);
@@ -24,10 +24,11 @@ public class TarLauncher {
             System.err.println(e.getMessage());
             System.err.println("java -jar tar-1.0.jar [-u filename.txt] | file1.txt file2.txt [-out output.txt]");
             parser.printUsage(System.err);
+            return;
         }
 
         Tar tar = new Tar();
-        if (split != null) tar.split();
+        if (split != null) tar.spliter(split);
         else {
             if (total != null) tar.connect(total, inputFilesName);
             else {
