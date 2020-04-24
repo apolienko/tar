@@ -8,8 +8,10 @@ public class Tar {
 
     public void connect(File total, List<File> inputFilesName) {
 
+        workDirectory = total.getPath();
+
         try{
-            FileWriter fw = new FileWriter(total);
+            FileWriter fw = new FileWriter(workDirectory);
             BufferedWriter writer = new BufferedWriter(fw);
             for (File file : inputFilesName) {
                 writer.write(String.valueOf(file));
@@ -77,8 +79,6 @@ public class Tar {
         }
 
     }
-
-    private String separator = File.separator;
 
     private String workDirectory;
 
