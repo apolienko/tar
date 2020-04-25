@@ -1,9 +1,7 @@
-src\test\resources\test1.txt
+src\test\resources\test2.txt 2
+      123 Checking working capacity
+Some words
+src\test\resources\test1.txt 3
        Hello! It is my first console program
   Some text
 234234234323423423
-Файл src\test\resources\test1.txt содержит 3 строк(и).
-src\test\resources\test2.txt
-      123 Checking working capacity
-Some words
-Файл src\test\resources\test2.txt содержит 2 строк(и).

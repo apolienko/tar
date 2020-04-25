@@ -18,80 +18,60 @@ public class Tar {
             }
         }
 
-        try {
-            FileWriter fw = new FileWriter(workDirectory);
-            try (BufferedWriter writer = new BufferedWriter(fw)) {
-                for (File file : inputFilesName) {
-                    writer.write(String.valueOf(file));
+        for (File file: inputFilesName) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                int count = 0;
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    count++;
+                }
+                namesOfFiles.put(file.toString(), count);
+            }
+        }
+
+        FileWriter fw = new FileWriter(workDirectory);
+        try (BufferedWriter writer = new BufferedWriter(fw)) {
+            for (Map.Entry<String, Integer> pair : namesOfFiles.entrySet()) {
+                String nameOfFile = pair.getKey();
+                int numberOfLines = pair.getValue();
+                try (BufferedReader reader = new BufferedReader(new FileReader(nameOfFile))) {
+                    writer.write(nameOfFile + " " + numberOfLines);
                     writer.newLine();
-                    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                        String line;
-                        Integer count = 0;
-                        while ((line = reader.readLine()) != null) {
-                            writer.write(line);
-                            writer.newLine();
-                            count++;
-                        }
-                        writer.write("Файл " + file + " содержит " + count + " строк(и).");
+                    for (int i=0; i < numberOfLines; i++) {
+                        writer.write(reader.readLine());
                         writer.newLine();
-                        namesOfFiles.put(String.valueOf(file), count);
                     }
                 }
             }
-            //Создание файла, внутри которого находятся имена файлов и кол-во строк
-            File fileOfNames = new File(total.getParent() + separator + "fileOfNames.txt");
-            fileOfNames.createNewFile();
-            FileWriter fw2 = new FileWriter(total.getParent() + separator + "fileOfNames.txt");
-            try (BufferedWriter writer2 = new BufferedWriter(fw2)) {
-                for (Map.Entry<String, Integer> pair : namesOfFiles.entrySet()) {
-                    writer2.write(pair.getKey() + " " + pair.getValue());
-                    writer2.newLine();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(-1);
         }
     }
 
     public static void spliter(File split) throws IOException {
 
         String separator = File.separator;
-        Map<String, Integer> namesOfFiles = new HashMap<String, Integer>();
+        String workDirectory = split.getPath();
 
         if (!split.exists()) {
             throw new IOException(split + " is not found");
         }
 
-        try (BufferedReader br = new BufferedReader(new FileReader(split.getParent() + separator + "fileOfNames.txt"))) {
-            String nowLine;
-            while ((nowLine = br.readLine()) != null) {
-                String[] fileNameAndLines = nowLine.split(" ");
-                namesOfFiles.put(fileNameAndLines[0], Integer.parseInt(fileNameAndLines[1]));
-            }
-        }
-
-        String workDirectory = split.getPath();
-
-        int countOfFiles = namesOfFiles.keySet().size();
-
-        try (BufferedReader br = new BufferedReader(new FileReader(workDirectory))) {
-            for (int i = 0; i < countOfFiles; i++) {
-                String nowLine = br.readLine();
-                File resroredFile = new File(nowLine + "-restored");
+        try (BufferedReader reader = new BufferedReader(new FileReader(workDirectory))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] fileNameAndLines = line.split(" ");
+                String nameOfFile = fileNameAndLines[0];
+                int numberOfLines = Integer.parseInt(fileNameAndLines[1]);
+                File resroredFile = new File(nameOfFile + "-restored");
                 resroredFile.createNewFile();
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(resroredFile.getPath()))) {
-                    int numOfLines = namesOfFiles.get(nowLine);
-                    for (int j = 0; j < numOfLines; j++) {
-                        nowLine = br.readLine();
-                        writer.write(nowLine);
+                FileWriter fw = new FileWriter(resroredFile);
+                try (BufferedWriter writer = new BufferedWriter(fw)) {
+                    for (int i=0; i < numberOfLines; i++) {
+                        writer.write(reader.readLine());
                         writer.newLine();
                     }
-                    br.readLine();
                 }
             }
         }
-
     }
 
 }

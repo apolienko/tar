@@ -26,23 +26,19 @@ class TarTest {
         Main.main(new String[]{inputFile1, inputFile2, "-out", outputFile});
         try (BufferedReader reader = new BufferedReader(new FileReader(outputFile))) {
             String line = reader.readLine();
-            assertEquals("src\\test\\resources\\test1.txt", line);
+            assertEquals("src\\test\\resources\\test2.txt 2", line);
+            line = reader.readLine();
+            assertEquals("      123 Checking working capacity", line);
+            line = reader.readLine();
+            assertEquals("Some words", line);
+            line = reader.readLine();
+            assertEquals("src\\test\\resources\\test1.txt 3", line);
             line = reader.readLine();
             assertEquals("       Hello! It is my first console program", line);
             line = reader.readLine();
             assertEquals("  Some text", line);
             line = reader.readLine();
             assertEquals("234234234323423423", line);
-            line = reader.readLine();
-            assertEquals("Файл src\\test\\resources\\test1.txt содержит 3 строк(и).", line);
-            line = reader.readLine();
-            assertEquals("src\\test\\resources\\test2.txt", line);
-            line = reader.readLine();
-            assertEquals("      123 Checking working capacity", line);
-            line = reader.readLine();
-            assertEquals("Some words", line);
-            line = reader.readLine();
-            assertEquals("Файл src\\test\\resources\\test2.txt содержит 2 строк(и).", line);
         }
 
     }
