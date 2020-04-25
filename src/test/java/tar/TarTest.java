@@ -16,8 +16,8 @@ class TarTest {
     private String outputFile = "src" + separator + "test" + separator + "resources" + separator + "connectedFile.txt";
     private String restoredFile1 = "src" + separator + "test" + separator + "resources" + separator + "test1.txt-restored";
     private String restoredFile2 = "src" + separator + "test" + separator + "resources" + separator + "test2.txt-restored";
-    private String EmptyPackageFile1 = "src" + separator + "test" + separator + "resources" + separator + "EmptyPackage" + "test1.txt";
-    private String EmptyPackageFile2 = "src" + separator + "test" + separator + "resources" + separator + "EmptyPackage" + "test1.txt";
+    private String nonexistentFile1 = "src" + separator + "test" + separator + "resources" + separator + "EmptyPackage" + "test1.txt";
+    private String nonexistentFile2 = "src" + separator + "test" + separator + "resources" + separator + "EmptyPackage" + "test2.txt";
 
 
     @Test
@@ -73,8 +73,12 @@ class TarTest {
     @Test
     void exceptionTests() {
 
-        String[] args = new String[]{EmptyPackageFile1, EmptyPackageFile2, "-out", outputFile};
-        assertThrows(IOException.class, () -> Main.main(args));
+        String[] args1 = new String[]{nonexistentFile1, nonexistentFile2, "-out", outputFile};
+        assertThrows(IOException.class, () -> Main.main(args1));
+
+        String[] args2 = new String[]{"-u", nonexistentFile2};
+        assertThrows(IOException.class, () -> Main.main(args2));
+
 
     }
 }
