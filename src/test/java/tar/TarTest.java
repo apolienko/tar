@@ -3,6 +3,7 @@ package tar;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +18,6 @@ class TarTest {
     private String restoredFile2 = "src" + separator + "test" + separator + "resources" + separator + "test2.txt-restored";
     private String EmptyPackageFile1 = "src" + separator + "test" + separator + "resources" + separator + "EmptyPackage" + "test1.txt";
     private String EmptyPackageFile2 = "src" + separator + "test" + separator + "resources" + separator + "EmptyPackage" + "test1.txt";
-
 
 
     @Test
@@ -45,7 +45,6 @@ class TarTest {
             assertEquals("Файл src\\test\\resources\\test2.txt содержит 2 строк(и).", line);
         }
 
-
     }
 
 
@@ -71,4 +70,11 @@ class TarTest {
 
     }
 
+    @Test
+    void exceptionTests() {
+
+        String[] args = new String[]{EmptyPackageFile1, EmptyPackageFile2, "-out", outputFile};
+        assertThrows(IOException.class, () -> Main.main(args));
+
+    }
 }

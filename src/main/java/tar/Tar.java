@@ -12,13 +12,13 @@ public class Tar {
         String workDirectory = total.getPath();
         Map<String, Integer> namesOfFiles = new HashMap<String, Integer>();
 
-        for (File file: inputFilesName) {
+        for (File file : inputFilesName) {
             if (!file.exists()) {
                 throw new IOException(file + " is not found");
             }
         }
 
-        try{
+        try {
             FileWriter fw = new FileWriter(workDirectory);
             try (BufferedWriter writer = new BufferedWriter(fw)) {
                 for (File file : inputFilesName) {
@@ -48,8 +48,7 @@ public class Tar {
                     writer2.newLine();
                 }
             }
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -64,7 +63,7 @@ public class Tar {
             throw new IOException(split + " is not found");
         }
 
-        try (BufferedReader br = new BufferedReader(new FileReader(split.getParent() + separator + "fileOfNames.txt" ))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(split.getParent() + separator + "fileOfNames.txt"))) {
             String nowLine;
             while ((nowLine = br.readLine()) != null) {
                 String[] fileNameAndLines = nowLine.split(" ");
