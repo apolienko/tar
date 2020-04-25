@@ -1,0 +1,9 @@
+src\test\resources\test1.txt
+       Hello! It is my first console program
+  Some text
+234234234323423423
+Файл src\test\resources\test1.txt содержит 3 строк(и).
+src\test\resources\test2.txt
+      123 Checking working capacity
+Some words
+Файл src\test\resources\test2.txt содержит 2 строк(и).
