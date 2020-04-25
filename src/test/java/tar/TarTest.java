@@ -15,6 +15,8 @@ class TarTest {
     private String outputFile = "src" + separator + "test" + separator + "resources" + separator + "connectedFile.txt";
     private String restoredFile1 = "src" + separator + "test" + separator + "resources" + separator + "test1.txt-restored";
     private String restoredFile2 = "src" + separator + "test" + separator + "resources" + separator + "test2.txt-restored";
+    private String EmptyPackageFile1 = "src" + separator + "test" + separator + "resources" + separator + "EmptyPackage" + "test1.txt";
+    private String EmptyPackageFile2 = "src" + separator + "test" + separator + "resources" + separator + "EmptyPackage" + "test1.txt";
 
 
 
@@ -43,7 +45,9 @@ class TarTest {
             assertEquals("Файл src\\test\\resources\\test2.txt содержит 2 строк(и).", line);
         }
 
+
     }
+
 
     @Test
     void spliter() throws IOException {

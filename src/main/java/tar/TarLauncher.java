@@ -6,10 +6,10 @@ import java.util.*;
 
 public class TarLauncher {
 
-    @Option(name = "-out", metaVar = "Connect", usage = "Connect files")
+    @Option(name = "-out", metaVar = "Connect", usage = "Connect files", forbids = {"-u"})
     private File total;
 
-    @Option(name = "-u", metaVar = "Split", usage = "Split files")
+    @Option(name = "-u", metaVar = "Split", usage = "Split files", forbids = {"-out"})
     private File split;
 
     @Argument(usage = "InputFileName")
